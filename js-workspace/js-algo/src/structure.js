@@ -10,8 +10,7 @@ class Person {
     setAge(age) {
         if(age >= 0 && age <=150){
             return this.age = age;
-        }
-        
+        }        
         // else{
         //     throw new Error("Valeur d'age impossible . AGE = " + age );
         // }
