@@ -1,0 +1,18 @@
+{
+  "name": "js-algo",
+  "version": "1.0.0",
+  "description": "initiation à l'algo",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "js",
+    "algorithmique"
+  ],
+  "author": "Alexandre Gaglianone",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.2.2"
+  }
+}
