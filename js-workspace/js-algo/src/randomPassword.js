@@ -44,7 +44,7 @@ function randomPassword(){
 
         indice = indice + 1;
     }
-   console.log("Password : " + mdp + " Password Size : " + mdp.length);
+      
     if(minChiffre < 2 || minMajuscule < 2 || minSigne < 2){
         minChiffre = 0; 
         minMajuscule = 0;
