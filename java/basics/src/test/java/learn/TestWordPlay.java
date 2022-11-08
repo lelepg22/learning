@@ -12,16 +12,16 @@ class TestWordPlay {   //Nommage convention OK(success) et KO(breaking)
                        //TDD TEST DRIVEN DEVELOPMENT
     //par impair
 
-    @Test
-    void isPalindromeWordOk() {
-        String word = "hannah";
+    @ParameterizedTest
+    @ValueSource( strings = {"hannah", "ana", "kayak"})
+    void isPalindromeWordOk(String word) {
+
 
         boolean ok = WordPlay.isPalindromeWord(word);
-        boolean ok2 = WordPlay.isPalindromeWord("ana");
-        boolean ok3 = WordPlay.isPalindromeWord("kayak");
+
 
         System.out.println(ok);
-        assertTrue(ok && ok2 && ok3);
+        assertTrue(ok);
     }
 
     @ParameterizedTest    //test avec des parametres
