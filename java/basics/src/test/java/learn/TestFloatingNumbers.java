@@ -83,8 +83,6 @@ public class TestFloatingNumbers {
         y = 0/0D;
         System.out.println(y);
 
-
-
     }
 
 }

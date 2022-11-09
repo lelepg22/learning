@@ -11,14 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestWordPlay {   //Nommage convention OK(success) et KO(breaking)
                        //TDD TEST DRIVEN DEVELOPMENT
     //par impair
-
     @ParameterizedTest
     @ValueSource( strings = {"hannah", "ana", "kayak"})
     void isPalindromeWordOk(String word) {
 
-
         boolean ok = WordPlay.isPalindromeWord(word);
-
 
         System.out.println(ok);
         assertTrue(ok);
@@ -51,10 +48,12 @@ class TestWordPlay {   //Nommage convention OK(success) et KO(breaking)
     @ParameterizedTest
     @MethodSource("learn.helper.WordGenerator#generateBadAnagramWords")
     void isAnagramKo(String word1, String word2) {
+
 //        String word1 = "kok";
 //        String word2 = "ok";
         boolean ok = WordPlay.isAnagram(word1, word2);
         boolean ok2 = WordPlay.isAnagram("banane", "banana");
+
         assertFalse(ok && ok2);
     }
 

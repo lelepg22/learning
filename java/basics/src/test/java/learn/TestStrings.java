@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestVariables {
+public class TestStrings {
 
     @Test
     void testStringsUninitializedVariable() {
@@ -15,7 +15,6 @@ public class TestVariables {
 
         city = "Toulouse";
         System.out.println(city);
-
 
     }
 
@@ -48,9 +47,37 @@ public class TestVariables {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> city.substring(9));
 
+    }
 
+    @Test
+    void testOperatorEquals (){
+
+        //test de ==
+        String city = "Toulouse";
+        String d = "se";
+        String city2 = "Tou" + "lou" + d;
+
+        boolean ea = city == city2;
+        System.out.println(city + " " + city2);
+        System.out.println("operateur == " + ea);
+
+        assertFalse( city == city2);
 
     }
 
+    @Test
+    void testMethodEquals () {
+
+        //test de String.equals("String " valueToTest)
+
+        String city = "Toulouse";
+        String d = "se";
+        String city2 = "Tou" + "lou" + d;
+
+        boolean ea = city.equals(city2);
+
+        assertTrue(ea);
+
+    }
 
 }
