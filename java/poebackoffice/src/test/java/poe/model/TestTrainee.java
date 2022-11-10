@@ -18,6 +18,7 @@ class TestTrainee {
 
         trainee.setFirstname("Alexandre");
         System.out.println(trainee.getFirstname());
+        assertEquals("Alexandre", trainee.getFirstname());
 
     }
 
@@ -51,12 +52,16 @@ class TestTrainee {
         System.out.println(trainee2);
         System.out.println(trainee3);
 
+        assertInstanceOf(Trainee.class, trainee1);
+
     }
 
     @Test
+
     void testToString(){
         Trainee trainee = new Trainee("Jane", "Doe", LocalDate.of(2000,2,29));
         System.out.println(trainee.toString());
+        assertEquals("Doe", trainee.getLastname());
 
     }
 

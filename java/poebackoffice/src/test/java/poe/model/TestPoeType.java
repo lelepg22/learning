@@ -19,8 +19,8 @@ class TestPoeType {
     }
 
     @ParameterizedTest
-
     @EnumSource(PoeType.class)
+
     void testAllLiterals(PoeType poeType){
         System.out.println(poeType);
     }
