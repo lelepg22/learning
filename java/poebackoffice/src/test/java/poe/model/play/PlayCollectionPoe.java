@@ -8,8 +8,7 @@ import poe.model.PoeType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,59 +21,45 @@ public class PlayCollectionPoe {
 
     static void initData() {
         poeList = List.of(
-
-                new Poe(
-
-                        "Java Fullstack",
-                        LocalDate.of(2022, 10, 24),
-                        LocalDate.of(2023, 1, 27),
-                        PoeType.POEI
-                ),
-
-                new Poe(
-
-                        "Java Fullstack",
-                        LocalDate.of(2022, 11, 2),
-                        LocalDate.of(2023, 2, 3),
-                        PoeType.POEC
-                ),
-
-                new Poe(
-
-                        "Consultant DevOps",
-                        LocalDate.of(2022, 6, 13),
-                        LocalDate.of(2022, 9, 16),
-                        PoeType.POEC
-                ),
-
-                new Poe(
-
-                        "Consultant Cyber Sécurité",
-                        LocalDate.of(2021, 9, 13),
-                        LocalDate.of(2021, 11, 16),
-                        PoeType.POEI
-                ),
-
-                new Poe(
-
-                        "Consultant SAP",
-                        LocalDate.of(2022, 4, 13),
-                        LocalDate.of(2022, 8, 16),
-                        PoeType.POEI
-                ),
-
-                new Poe(
-
-                        "Consultant BI",
-                        LocalDate.of(2022, 9, 24),
-                        LocalDate.of(2022, 11, 23),
-                        PoeType.POEI
-                )
-
-
+                Poe.builder()
+                        .title("Java Fullstack")
+                        .beginDate(LocalDate.of(2022, 10, 24))
+                        .endDate(LocalDate.of(2023, 1, 27))
+                        .poeType(PoeType.POEI)
+                        .build(),
+                Poe.builder()
+                        .title("Java Fullstack")
+                        .beginDate(LocalDate.of(2022, 11, 2))
+                        .endDate(LocalDate.of(2023, 2, 3))
+                        .poeType(PoeType.POEC)
+                        .build(),
+                Poe.builder()
+                        .title("Consultant Devops")
+                        .beginDate(LocalDate.of(2022, 6, 13))
+                        .endDate(LocalDate.of(2022, 9, 16))
+                        .poeType(PoeType.POEC)
+                        .build(),
+                Poe.builder()
+                        .title("Consultant Cyber Sécurité")
+                        .beginDate(LocalDate.of(2021, 9, 13))
+                        .endDate(LocalDate.of(2021, 11, 16))
+                        .poeType(PoeType.POEI)
+                        .build(),
+                Poe.builder()
+                        .title("Consultant SAP")
+                        .beginDate(LocalDate.of(2022, 4, 13))
+                        .endDate(LocalDate.of(2022, 8, 16))
+                        .poeType(PoeType.POEI)
+                        .build(),
+                Poe.builder()
+                        .title("Consultant BI")
+                        .beginDate(LocalDate.of(2022, 9, 24))
+                        .endDate(LocalDate.of(2022, 11, 23))
+                        .poeType(PoeType.POEI)
+                        .build()
         );
-
     }
+
 
     @Test
     void playWithListPoe() {
@@ -104,5 +89,40 @@ public class PlayCollectionPoe {
                         / poeList.stream().count()
 
         );
+    }
+    @Test
+    void sortPoe(){
+
+        // NavigableSet<Poe> poeSet = new TreeSet<>(Comparator.reverseOrder());
+        // System.out.println(poeSet);
+
+        // List<Poe> poeList1 = new ArrayList<>();
+        // Collections.sort(poeList1);
+
+        Comparator<Poe> comparatorPoe = (p1, p2) -> -1; //avec ou SANS typage JAVA DETERMINE les parametre comment Poe
+
+        NavigableSet<Poe> poeSet = new TreeSet<>(comparatorPoe);
+        poeSet.addAll(poeList);
+        System.out.println(poeSet);
+
+        Comparator<Poe> comparator2 = Comparator.comparing(Poe::getBeginDate);
+
+        NavigableSet<Poe> poeSet2 = new TreeSet<>(comparator2);
+        poeSet2.addAll(poeList);
+        System.out.println(poeSet2);
+
+        Comparator<Poe> comparator3 = Comparator.comparing(Poe::getBeginDate, Comparator.reverseOrder());
+
+        NavigableSet<Poe> poeSet3 = new TreeSet<>(comparator3);
+        poeSet3.addAll(poeList);
+        System.out.println(poeSet3);
+
+        Comparator<Poe> comparator4 = Comparator.comparing(Poe::getPoeType, Comparator.reverseOrder()).thenComparing(Poe::getBeginDate);
+
+        NavigableSet<Poe> poeSet4 = new TreeSet<>(comparator4);
+        poeSet4.addAll(poeList);
+        System.out.println("4" + poeSet4);
+
+
     }
 }
