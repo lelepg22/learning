@@ -1,0 +1,39 @@
+<table>
+    <thead>
+        <tr> <!-- tr : table row-->
+            <th>#</th>      <!-- th :cellule d'en-tête -->
+            <th>Lastname</th>
+            <th>Firstname</th>
+            <th>Birthdate</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let stagiaire of stagiaires">
+            <td>  <!-- td :définit une cellule d'un tableau -->
+                {{ stagiaire.getId() }}
+            </td>
+
+            <td>
+                {{ stagiaire.getLastName() | uppercase }}
+            </td>
+
+            <td>
+                {{ stagiaire.getFirstName() }}
+            </td>
+
+            <td>
+                {{ stagiaire.getBirthDate() | date: 'dd-MM-YYYY'}}
+            </td>
+            <td>
+                &nbsp; <button type="button" (click)="onRemove(stagiaire)">x</button>
+            </td>
+            
+        </tr>        
+    </tbody>
+    <tfoot>
+        <tr>     
+            <td colspan="4">Nb. items</td>       
+            <td>{{ stagiaires.length }}</td>
+    </tfoot>
+</table>

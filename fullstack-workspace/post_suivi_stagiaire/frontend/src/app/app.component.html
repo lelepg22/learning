@@ -1,0 +1,21 @@
+<h1  (click) ="toggleTitle()">
+     {{ title }} 
+</h1>
+
+<ul> <!-- unordered list -->
+
+  <li *ngFor="let stagiare of stagiares">  
+      {{ stagiare.getLastName() }}
+      {{ stagiare.getEmail() }}
+
+  </li>
+
+</ul>
+
+<button type="button" (click)="addStagiaire()">
+  Ajouter un stagiare
+</button>
+
+<app-stagiaire-table></app-stagiaire-table>
+
+

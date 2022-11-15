@@ -1,0 +1,8 @@
+$head-and-foot-color: rgb(76, 174, 239);
+table{
+    border-collapse: collapse;
+
+    thead, tfoot{
+        background-color: $head-and-foot-color;
+    }
+}
