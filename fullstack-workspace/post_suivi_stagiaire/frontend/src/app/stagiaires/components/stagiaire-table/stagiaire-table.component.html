@@ -1,5 +1,6 @@
+<app-stagiaire-filter [filterDate]="stopDate" (onChangeFilter)="filterChanged($event)"></app-stagiaire-filter>
 <table>
-    <thead>
+    <thead>        
         <tr> <!-- tr : table row-->
             <th>#</th>      <!-- th :cellule d'en-tête -->
             <th>Lastname</th>
@@ -8,32 +9,38 @@
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngFor="let stagiaire of stagiaires">
-            <td>  <!-- td :définit une cellule d'un tableau -->
-                {{ stagiaire.getId() }}
-            </td>
-
-            <td>
-                {{ stagiaire.getLastName() | uppercase }}
-            </td>
-
-            <td>
-                {{ stagiaire.getFirstName() }}
-            </td>
-
-            <td>
-                {{ stagiaire.getBirthDate() | date: 'dd-MM-YYYY'}}
-            </td>
-            <td>
-                &nbsp; <button type="button" (click)="onRemove(stagiaire)">x</button>
-            </td>
+    <tbody>        
             
-        </tr>        
+            <ng-container *ngFor="let stagiaire of stagiaires">
+                <!-- 
+                    <tr *ngIf="(stopDate === null) ? true : stopDate.getDate() === 31 ? stagiaire.getBirthDate() > stopDate : stagiaire.getBirthDate() < stopDate">
+                -->
+                <tr *ngIf="changeView(stagiaire)" > 
+                <td>  <!-- td :définit une cellule d'un tableau -->
+                    {{ stagiaire.getId() }}
+                </td>
+
+                <td>
+                    {{ stagiaire.getLastName() | uppercase }}
+                </td>
+
+                <td>
+                    {{ stagiaire.getFirstName() }}
+                </td>
+
+                <td>
+                    {{ stagiaire.getBirthDate() | date: 'dd-MM-YYYY'}}
+                </td>
+                <td>
+                    &nbsp; <button type="button" (click)="onRemove(stagiaire)">x</button>
+                </td>
+                
+            </tr>        
+    </ng-container>
     </tbody>
     <tfoot>
         <tr>     
             <td colspan="4">Nb. items</td>       
-            <td>{{ stagiaires.length }}</td>
+            <td>{{ getStagiairesVisible(stopDate) }}</td>
     </tfoot>
 </table>

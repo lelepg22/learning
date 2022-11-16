@@ -1,0 +1,11 @@
+
+    <button type="button" [ngClass]="{'active': getButtonState('btnLT1977')}" (click)="changeButtonStateKey('btnLT1977')">
+         &lt; 1977 
+    </button>
+    <button type="button" [ngClass]="{'active': getButtonState('btnGT1977')}" (click)="changeButtonStateKey('btnGT1977')"> 
+        &gt; 1977 
+    </button>
+    <button type="button" [ngClass]="{'active': getButtonState('btnAll')}" (click)="changeButtonStateKey('btnAll')"> 
+        All
+    </button>
+

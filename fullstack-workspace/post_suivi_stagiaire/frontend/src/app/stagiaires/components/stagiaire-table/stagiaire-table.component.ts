@@ -10,6 +10,13 @@ import { StagiaireService } from 'src/app/core/services/stagiaire.service';
 export class StagiaireTableComponent implements OnInit {
 
   public stagiaires: Array<Stagiaire> = [];
+  public stopDate: Date | null = new Date(1977,11,31);
+
+  public stagiairesOver: Array<Stagiaire> =
+   this.serviceStagiaires
+   .getStagiares()
+   .filter(x => x.getBirthDate() > this.stopDate!);
+
 
   constructor(private serviceStagiaires: StagiaireService) { }
 
@@ -22,6 +29,29 @@ export class StagiaireTableComponent implements OnInit {
   public onRemove(stagiaire: Stagiaire): void{
     console.log(`L'utilisateur souhaite supprimer ${stagiaire.getLastName()}`)
     this.serviceStagiaires.delete(stagiaire);
+  }
+
+  public getStagiairesVisible(params:Date | null): number {
+    
+    return this.serviceStagiaires.getStagiairesVisible(params);
+
+  }
+
+  public filterChanged(event: Date | null): void{
+    console.log(`Filter has changed to : ${event}`)
+    this.stopDate = event;
+    this.getStagiairesVisible(event);
+  }
+
+  public changeView(stagiaire: Stagiaire): boolean{
+    if(this.stopDate === null){
+      return true
+    }
+    if(this.stopDate.getDate() === 31){
+      return stagiaire.getBirthDate() > this.stopDate;
+    }
+
+    return stagiaire.getBirthDate() < this.stopDate;
   }
 
 }

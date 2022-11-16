@@ -33,6 +33,16 @@ export class StagiaireService {
 
     this.stagiaires.push(stagiaire);
 
+    stagiaire = new Stagiaire();
+    stagiaire.setId(3);
+    stagiaire.setLastName("Willow");
+    stagiaire.setFirstName("Johnny");
+    stagiaire.setPhoneNumber("+330826624");
+    stagiaire.setBirthDate(new Date(1965, 3,10));
+    stagiaire.setEmail("johnny@gmail.com")
+
+    this.stagiaires.push(stagiaire);
+
   }
 
   public getStagiares(): Array<Stagiaire>{
@@ -53,11 +63,32 @@ export class StagiaireService {
     console.log(this.stagiaires);
 
     // or
-     this.stagiaires.splice(this.stagiaires.indexOf(stagiaire),1);
+    //this.stagiaires.splice(this.stagiaires.indexOf(stagiaire),1);
 
-     //or
+    //or
     // const stagiaireIndex: number = this.stagiaires.fixIndex((obj: Stagiaire) => obj.getId() === stagiaire.getId())
     // this.stagiaires.splice(stagiaireIndex,1);
+
+  }
+
+  public getStagiairesVisible(params:Date | null): number{
+    
+    if(params === null){
+      return this.stagiaires.length;
+    }
+    
+    else if(params.getDate() === 31)
+    {
+      return this.stagiaires
+      .filter((x: Stagiaire) => x.getBirthDate() > params) // Si {} a la function fleche il faut un return!
+      .length
+    }
+    else{
+      return this.stagiaires
+      .filter((x: Stagiaire) => x.getBirthDate() < params) // Si {} a la function fleche il faut un return!
+      .length
+
+    }
 
   }
 
