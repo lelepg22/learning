@@ -43,6 +43,16 @@ export class StagiaireService {
 
     this.stagiaires.push(stagiaire);
 
+    stagiaire = new Stagiaire();
+    stagiaire.setId(4);
+    stagiaire.setLastName('Aubert');
+    stagiaire.setFirstName('Jean-Luc');
+    stagiaire.setPhoneNumber('+(33)6 15 15 15 15');
+    stagiaire.setEmail('jla.webprojet@gmail.com');
+    stagiaire.setBirthDate(new Date(1968, 3, 30));
+
+    this.stagiaires.push(stagiaire);
+
   }
 
   public getStagiares(): Array<Stagiaire>{
@@ -63,7 +73,7 @@ export class StagiaireService {
     console.log(this.stagiaires);
 
     // or
-    //this.stagiaires.splice(this.stagiaires.indexOf(stagiaire),1);
+    this.stagiaires.splice(this.stagiaires.indexOf(stagiaire),1);
 
     //or
     // const stagiaireIndex: number = this.stagiaires.fixIndex((obj: Stagiaire) => obj.getId() === stagiaire.getId())

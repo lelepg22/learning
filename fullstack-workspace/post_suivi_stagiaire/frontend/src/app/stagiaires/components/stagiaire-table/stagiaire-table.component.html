@@ -15,9 +15,10 @@
                 <!-- 
                     <tr *ngIf="(stopDate === null) ? true : stopDate.getDate() === 31 ? stagiaire.getBirthDate() > stopDate : stagiaire.getBirthDate() < stopDate">
                 -->
-                <tr *ngIf="changeView(stagiaire)" > 
+                <tr *ngIf="changeView(stagiaire)" (click)="selectStagiaire(stagiaire)" > 
                 <td>  <!-- td :définit une cellule d'un tableau -->
-                    {{ stagiaire.getId() }}
+                   {{stagiaire | initials: {firstNameFirst:false} }} {{ stagiaire.getId() }} 
+                   <!--pipe initials apres ":" arguments -->
                 </td>
 
                 <td>
@@ -44,3 +45,14 @@
             <td>{{ getStagiairesVisible(stopDate) }}</td>
     </tfoot>
 </table>
+<!-- <ng-container *ngIf="card">
+    <app-stagiaire-detail [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
+</ng-container> -->
+
+ <!--<div [appHidden]="card">
+    <app-stagiaire-detail  [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
+ </div>-->
+
+ <div [hidden]="!card">
+    <app-stagiaire-detail  [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
+ </div>

@@ -13,6 +13,8 @@ export class AppComponent {
 
   public stagiares: Array<Stagiaire> = this.stagiareService.getStagiares();
 
+  public inputType: string = 'password';  
+
   public constructor(
     private stagiareService: StagiaireService
   ){
@@ -30,6 +32,20 @@ export class AppComponent {
 
   public addStagiaire(): void {
     //this.stagiares.push('Dummy stagiaire');
+  }
+
+  public showPassword(): void {
+    if (this.inputType === 'password') {
+      this.inputType = 'text';
+      setTimeout(
+        () => {
+          this.inputType = 'password'
+        },
+        800
+      )
+    } else {
+      this.inputType = 'password';
+    }
   }
 
   

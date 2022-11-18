@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Stagiaire } from 'src/app/core/models/stagiaire';
 import { StagiaireService } from 'src/app/core/services/stagiaire.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-stagiaire-table',
@@ -9,8 +10,10 @@ import { StagiaireService } from 'src/app/core/services/stagiaire.service';
 })
 export class StagiaireTableComponent implements OnInit {
 
+  public stagiaire: Stagiaire = new Stagiaire();
   public stagiaires: Array<Stagiaire> = [];
   public stopDate: Date | null = new Date(1977,11,31);
+  public card: boolean = false;
 
   public stagiairesOver: Array<Stagiaire> =
    this.serviceStagiaires
@@ -52,6 +55,28 @@ export class StagiaireTableComponent implements OnInit {
     }
 
     return stagiaire.getBirthDate() < this.stopDate;
+  }
+
+  public selectStagiaire(stagiaire: Stagiaire): void{
+    
+    if(this.card === false){
+      this.card = true;
+      this.stagiaire = stagiaire;
+    }
+    
+    // (this.card !== true) ?  this.card = true : this.card = true;
+
+    // (this.card === true && this.stagiaire.getFirstName().length > 0) ?
+    //  this.stagiaire = this.stagiaire : this.stagiaire = stagiaire;
+   
+  }
+
+  public toggleCard() : void{
+
+    this.stagiaire = new Stagiaire();
+
+    this.card = !this.card;    
+
   }
 
 }

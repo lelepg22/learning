@@ -1,0 +1,20 @@
+<div>
+    <div class="outer-dialog">
+        <div class="inner-dialog">
+            <p>{{ stagiaire | initials }}</p>
+
+            <ul *ngIf="stagiaire">
+
+                <li>Lastname: {{stagiaire.getLastName()}} </li>
+                <li>Firstname: {{stagiaire.getFirstName()}}</li>
+                <li>Birthdate: {{stagiaire.getBirthDate() | date: 'dd-MM-YYYY'}}</li>
+                <li>Email: {{stagiaire.getEmail()}}</li>
+                <li>Phone number: {{stagiaire.getPhoneNumber()}}</li>
+
+            </ul>
+
+            <button (click)="closeCard()">Close</button>
+        </div>
+    </div>    
+
+</div>
