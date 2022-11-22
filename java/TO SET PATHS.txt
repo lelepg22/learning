@@ -1,0 +1,5 @@
+search path on windows starter
+go to setting enviorement set variables
+go to path
+add new path to the bin folder
+

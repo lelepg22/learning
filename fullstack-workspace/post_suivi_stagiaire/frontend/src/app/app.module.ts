@@ -9,16 +9,23 @@ import { StagiaireFilterComponent } from './stagiaires/components/stagiaire-filt
 import { InitialsPipe } from './shared/pipes/initials.pipe';
 import { StagiaireDetailComponent } from './stagiaires/components/stagiaire-detail/stagiaire-detail.component';
 import { HiddenDirective } from './shared/directives/hidden.directive';
+import { BubbleDirective } from './shared/directives/bubble.directive';
+import { HttpClientModule} from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
     StagiaireTableComponent,    
-    StagiaireFilterComponent, InitialsPipe, StagiaireDetailComponent, HiddenDirective
+    StagiaireFilterComponent, 
+    InitialsPipe, 
+    StagiaireDetailComponent, 
+    HiddenDirective, 
+    BubbleDirective
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

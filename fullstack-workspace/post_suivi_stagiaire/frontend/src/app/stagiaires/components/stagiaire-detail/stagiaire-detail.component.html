@@ -1,7 +1,7 @@
 <div>
     <div class="outer-dialog">
         <div class="inner-dialog">
-            <p>{{ stagiaire | initials }}</p>
+            <p appBubble [config]="bubbleConfig">{{ stagiaire | initials }}</p>
 
             <ul *ngIf="stagiaire">
 

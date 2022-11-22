@@ -1,0 +1,33 @@
+CLI =  command line interface
+
+INETUM JAVA 5
+
+CTRL C to quit ng serve and others on terminal
+
+aplication web par example suivi des stagiaires a aelion (projet) != site web site aelion //diference entre
+
+UNIVERSAL por referencement Angular
+
+--dry-run console simulates a command
+
+GENERATION COMPONENT Angular avec dossier
+
+ng g component componentName src/component/
+
+GENERATION CLASS Angular
+ng g class className adr/adress/
+
+GENERATION SERVICE Angular
+ng g service serviceName src/service/
+
+
+TO BUILD VM Angular command 
+
+ng serve
+
+When we BUILD with Angular all the console.log disapears
+
+enANGULAR QUAND on BUILD TOUT LE console.log disapears
+
+VIDEOS
+ https://fireship.io/lessons/sharing-data-between-angular-components-four-methods/

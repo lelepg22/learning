@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators'
 import { Stagiaire } from '../models/stagiaire';
 
 @Injectable({
@@ -8,11 +11,40 @@ export class StagiaireService {
 
   private stagiaires: Array<Stagiaire> = [];
 
-  constructor() { 
-    this.feedIt();  
+  constructor(
+    private httpClient: HttpClient
+    ) { 
+    
   }
 
-  private feedIt(): void {
+  public findAll(): Observable<Stagiaire[]> {
+
+    return this.httpClient.get<any>(
+      "http://localhost:5000/stagiaires"
+      )
+      .pipe(
+        take(1),
+        map((stagiaires: any[]) => { 
+          return stagiaires.map(
+            (inputStagiaire: any) => {
+              const stagiaire: Stagiaire = new Stagiaire();
+              stagiaire.setId(inputStagiaire.id);
+              stagiaire.setLastName(inputStagiaire.lastName);
+              stagiaire.setFirstName(inputStagiaire.firstName);
+              stagiaire.setEmail(inputStagiaire.email);
+              stagiaire.setPhoneNumber(inputStagiaire.phoneNumber);
+              stagiaire.setBirthDate(new Date(inputStagiaire.birthDate));
+              return stagiaire;
+
+            }
+        ) 
+        }
+          )
+      )
+
+  }
+  /*private feedIt(): void {
+
     let stagiaire:  Stagiaire = new Stagiaire();
     stagiaire.setId(1);
     stagiaire.setLastName("Gaglianone");
@@ -53,7 +85,7 @@ export class StagiaireService {
 
     this.stagiaires.push(stagiaire);
 
-  }
+  } */
 
   public getStagiares(): Array<Stagiaire>{
 

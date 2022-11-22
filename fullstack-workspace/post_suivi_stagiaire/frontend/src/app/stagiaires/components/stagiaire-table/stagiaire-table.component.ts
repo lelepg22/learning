@@ -2,6 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { Stagiaire } from 'src/app/core/models/stagiaire';
 import { StagiaireService } from 'src/app/core/services/stagiaire.service';
 import { CommonModule } from '@angular/common';
+import { HandleDetailService } from 'src/app/shared/directives/handle-detail.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-stagiaire-table',
@@ -13,7 +15,20 @@ export class StagiaireTableComponent implements OnInit {
   public stagiaire: Stagiaire = new Stagiaire();
   public stagiaires: Array<Stagiaire> = [];
   public stopDate: Date | null = new Date(1977,11,31);
-  public card: boolean = false;
+  public card$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  public bubbleConfig: any = {
+      height: '2em',          
+      width: '2em',
+      lineHeight: '2em',
+      backgroundColor:'rgba(20, 20, 200, .5)', //when manipulating css instead of - use camelCase like background-color
+      borderRadius: '50%',
+      fontWeight: 'bold',
+      verticalAlign: 'middle',
+      textAlign: 'center',
+      display: 'inline-block'
+  }
+  
 
   public stagiairesOver: Array<Stagiaire> =
    this.serviceStagiaires
@@ -21,11 +36,21 @@ export class StagiaireTableComponent implements OnInit {
    .filter(x => x.getBirthDate() > this.stopDate!);
 
 
-  constructor(private serviceStagiaires: StagiaireService) { }
+  constructor(
+    private serviceStagiaires: StagiaireService,
+    private handleDetailService: HandleDetailService
+    ) { }
 
   ngOnInit(): void {
 
-    this.stagiaires = this.serviceStagiaires.getStagiares();
+    this.serviceStagiaires.findAll().subscribe((stagiaire: Stagiaire[])=>{
+      this.stagiaires = stagiaire;
+    }
+    )
+
+    this.card$ = this.handleDetailService.isDetailHidden;
+
+        
     
   }
 
@@ -34,8 +59,8 @@ export class StagiaireTableComponent implements OnInit {
     this.serviceStagiaires.delete(stagiaire);
   }
 
-  public getStagiairesVisible(params:Date | null): number {
-    
+  public getStagiairesVisible(params:Date | null): number {    
+
     return this.serviceStagiaires.getStagiairesVisible(params);
 
   }
@@ -57,26 +82,13 @@ export class StagiaireTableComponent implements OnInit {
     return stagiaire.getBirthDate() < this.stopDate;
   }
 
-  public selectStagiaire(stagiaire: Stagiaire): void{
-    
-    if(this.card === false){
-      this.card = true;
-      this.stagiaire = stagiaire;
-    }
-    
-    // (this.card !== true) ?  this.card = true : this.card = true;
-
-    // (this.card === true && this.stagiaire.getFirstName().length > 0) ?
-    //  this.stagiaire = this.stagiaire : this.stagiaire = stagiaire;
+  public selectStagiaire(stagiaire: Stagiaire): void{      
    
-  }
+      this.stagiaire = stagiaire;
 
-  public toggleCard() : void{
-
-    this.stagiaire = new Stagiaire();
-
-    this.card = !this.card;    
-
-  }
+      this.handleDetailService.setIsDetailHidden(false);
+      
+        
+  }  
 
 }

@@ -9,7 +9,7 @@
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>        
+    <tbody *ngIf="card$">        
             
             <ng-container *ngFor="let stagiaire of stagiaires">
                 <!-- 
@@ -17,8 +17,16 @@
                 -->
                 <tr *ngIf="changeView(stagiaire)" (click)="selectStagiaire(stagiaire)" > 
                 <td>  <!-- td :définit une cellule d'un tableau -->
-                   {{stagiaire | initials: {firstNameFirst:false} }} {{ stagiaire.getId() }} 
+                   <span  appBubble [config]="bubbleConfig">
+
+                    {{stagiaire | initials: {firstNameFirst:false} }}  
                    <!--pipe initials apres ":" arguments -->
+                   
+                   </span>
+                </td>
+
+                <td>
+                    {{ stagiaire.getId() }}
                 </td>
 
                 <td>
@@ -53,6 +61,6 @@
     <app-stagiaire-detail  [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
  </div>-->
 
- <div [hidden]="!card">
-    <app-stagiaire-detail  [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
+ <div [hidden]="card$ | async">
+    <app-stagiaire-detail  [stagiaire]="stagiaire"></app-stagiaire-detail>
  </div>
