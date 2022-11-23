@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators'
+import { environment } from 'src/environments/environment';
 import { Stagiaire } from '../models/stagiaire';
 
 @Injectable({
@@ -10,23 +11,25 @@ import { Stagiaire } from '../models/stagiaire';
 export class StagiaireService {
 
   private stagiaires: Array<Stagiaire> = [];
+  private controllerUrl : string  =  `${environment.apiBaseUrl}/trainee`;
 
   constructor(
     private httpClient: HttpClient
-    ) { 
-    
+  ) {
+
   }
 
   public findAll(): Observable<Stagiaire[]> {
 
     return this.httpClient.get<any>(
-      "http://localhost:5000/stagiaires"
-      )
+      this.controllerUrl
+    )
       .pipe(
         take(1),
-        map((stagiaires: any[]) => { 
-          return stagiaires.map(
+        map((stagiaires: any[]) => {
+          return this.stagiaires = stagiaires.map(
             (inputStagiaire: any) => {
+
               const stagiaire: Stagiaire = new Stagiaire();
               stagiaire.setId(inputStagiaire.id);
               stagiaire.setLastName(inputStagiaire.lastName);
@@ -37,9 +40,9 @@ export class StagiaireService {
               return stagiaire;
 
             }
-        ) 
-        }
           )
+        }
+        )
       )
 
   }
@@ -87,25 +90,31 @@ export class StagiaireService {
 
   } */
 
-  public getStagiares(): Array<Stagiaire>{
+  public getStagiares(): Array<Stagiaire> {
 
-      return this.stagiaires;
+    return this.stagiaires;
 
   }
-  
-  public delete(stagiaire: Stagiaire): void{
 
-    console.log(`Le composant souhaite que on delete ${stagiaire.getLastName()} stagiaire`)
+  public delete(stagiaire: Stagiaire) {
     
+
+    this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`).subscribe(
+      (res: any) =>
+        console.log(res)
+    );
+
+    console.log(`Le composant souhaite que on delete ${stagiaire.getLastName()} stagiaire`);
+
     // this.stagiaires = this.stagiaires
     //   .filter(x => x != stagiaire);
-    
+
     // NE REFRACHIE PAS LE COMPONENT
 
     console.log(this.stagiaires);
 
     // or
-    this.stagiaires.splice(this.stagiaires.indexOf(stagiaire),1);
+    this.stagiaires.splice(this.stagiaires.indexOf(stagiaire), 1);
 
     //or
     // const stagiaireIndex: number = this.stagiaires.fixIndex((obj: Stagiaire) => obj.getId() === stagiaire.getId())
@@ -113,22 +122,22 @@ export class StagiaireService {
 
   }
 
-  public getStagiairesVisible(params:Date | null): number{
-    
-    if(params === null){
+  public getStagiairesVisible(params: Date | null): number {
+
+    if (params === null) {
+      console.log(this.stagiaires)
       return this.stagiaires.length;
     }
-    
-    else if(params.getDate() === 31)
-    {
+
+    else if (params.getDate() === 31) {
       return this.stagiaires
-      .filter((x: Stagiaire) => x.getBirthDate() > params) // Si {} a la function fleche il faut un return!
-      .length
+        .filter((x: Stagiaire) => x.getBirthDate() > params) // Si {} a la function fleche il faut un return!
+        .length
     }
-    else{
+    else {
       return this.stagiaires
-      .filter((x: Stagiaire) => x.getBirthDate() < params) // Si {} a la function fleche il faut un return!
-      .length
+        .filter((x: Stagiaire) => x.getBirthDate() < params) // Si {} a la function fleche il faut un return!
+        .length
 
     }
 

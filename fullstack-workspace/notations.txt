@@ -31,3 +31,10 @@ enANGULAR QUAND on BUILD TOUT LE console.log disapears
 
 VIDEOS
  https://fireship.io/lessons/sharing-data-between-angular-components-four-methods/
+ 
+ FORMAT TEXT 
+ VISUALSTUDIOCODE MAJ + ALT + F
+ INTELLIJ CTRL + ALT + I
+ 
+ INTLJ DEPLACE ligne up down  ALT + SHIFT + UP (or down)
+ 
