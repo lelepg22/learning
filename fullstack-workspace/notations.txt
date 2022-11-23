@@ -38,3 +38,6 @@ VIDEOS
  
  INTLJ DEPLACE ligne up down  ALT + SHIFT + UP (or down)
  
+ 
+ INTELLIJ SUGGESTION CREATION ALT + INSERT
+ 
