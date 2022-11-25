@@ -4,8 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import survey.backend.dto.TraineeDto;
+import survey.backend.error.NoDataFoundError;
 import survey.backend.service.TraineeService;
+import survey.backend.service.impl.DummyTraineeService;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,6 +26,7 @@ public class TraineeController {
 
     @Autowired // Dependency INJECTION from SPRING
     private TraineeService traineeService;
+
 
     private final Set<TraineeDto> build = Set.of(
             TraineeDto.builder()
@@ -66,23 +72,18 @@ public class TraineeController {
      */
 
     @GetMapping("{id}")    // http://localhost:8080/api/trainee/20
-    public TraineeDto one(@PathVariable("id") int id) {
+    public TraineeDto findByid(@PathVariable("id") int id) {
 
         Optional<TraineeDto> optionalTraineeDto = traineeService.findById(id);
         if(optionalTraineeDto.isPresent()) {
             return optionalTraineeDto.get();
         }
         else{
-            throw new IllegalArgumentException("Trainee with id provided : " + id + " NOT FOUND" );
+
+            throw NoDataFoundError.withId("Trainee", id);
+
         }
 
-//
-//        return Optional.of(TraineeDto.builder()
-//                .id(id)
-//                .firstName("Johnny")
-//                .lastName("BeGood")
-//                .build()
-//        );
     }
 
 
@@ -121,9 +122,9 @@ public class TraineeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TraineeDto add(@RequestBody TraineeDto traineeDto) {
+    public TraineeDto add(@Valid @RequestBody TraineeDto traineeDto) {
 
-        // TODO: add in a under layer
+        //TODO: traineeDto must be valid
         return this.traineeService.add(traineeDto);
 
 
@@ -141,18 +142,22 @@ public class TraineeController {
     }
 
     @PutMapping
-    public Set<TraineeDto> putTrainee(@RequestBody TraineeDto traineeDto){
+    public Optional<TraineeDto> putTrainee(@Valid @RequestBody TraineeDto traineeDto){
 
-        this.trainees = this.trainees.stream()
-                .map(data -> {
-                    if(data.getId() == traineeDto.getId()){
-                        return data = traineeDto;
-                    }
-                    return data;
-                }
-                ).collect(Collectors.toSet());
+        //TODO: traineeDto must be valid
 
-        return this.trainees;
+
+//        this.trainees = this.trainees.stream()
+//                .map(data -> {
+//                    if(data.getId() == traineeDto.getId()){
+//                        return data = traineeDto;
+//                    }
+//                    return data;
+//                }
+//                ).collect(Collectors.toSet());
+//
+//        return this.trainees;
+        return this.traineeService.update(traineeDto);
 
 
 

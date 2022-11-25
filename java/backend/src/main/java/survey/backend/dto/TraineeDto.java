@@ -2,6 +2,7 @@ package survey.backend.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Builder
@@ -12,10 +13,20 @@ import java.time.LocalDate;
 public class TraineeDto {
 
     private Integer id;
+
+    @NotBlank //include @NonNull
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotNull
+    @Email
     private String email;
-    private String phoneNumber;
+   @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
+   private String phoneNumber;
+
+    @Past
     private LocalDate birthDate;
 
 

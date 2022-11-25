@@ -98,8 +98,8 @@ export class StagiaireService {
 
   public delete(stagiaire: Stagiaire) {
     
-
-    this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`).subscribe(
+    this.httpClient.delete(`${this.controllerUrl}/${stagiaire.getId()}`).subscribe(
+    // this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`).subscribe(
       (res: any) =>
         console.log(res)
     );

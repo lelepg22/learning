@@ -1,0 +1,35 @@
+<form [formGroup]="stagiaireForm" (ngSubmit)="onSubmit()">
+
+    <div>
+        <label for="lastName">Lastname:</label>
+        <input type="text" id="lastName" formControlName="lastName">
+    </div>
+
+    <div>
+        <label for="firstName">Firstname:</label>
+        <input type="text" id="firstName" formControlName="firstName"> 
+    </div>
+
+    <div>
+        <label for="phoneNumber">Phone number:</label>
+        <input type="text" id="phoneNumber" formControlName="phoneNumber"> 
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" formControlName="email"> 
+    </div>
+
+    <div>
+        <label for="birthDate">Birthdate:</label>
+        <input type="date" id="birthDate" formControlName="birthDate"> 
+    </div>
+
+    <div>
+        <button [disabled]="!stagiaireForm.valid">
+            Ajouter un stagiare
+        </button>
+    </div>
+
+</form>
+

@@ -41,3 +41,8 @@ VIDEOS
  
  INTELLIJ SUGGESTION CREATION ALT + INSERT
  
+ JPA Java PERSISTANCE 
+ 
+ GIT RESTORE */* (file path)
+ It restores the file to the last commit on it!
+ 

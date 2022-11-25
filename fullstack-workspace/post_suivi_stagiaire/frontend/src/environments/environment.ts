@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/api'
+ // apiBaseUrl: 'http://localhost:8080/api'
+  apiBaseUrl: 'http://localhost:5000'
 };
+
+// node_modules\\.bin\\json-server -p 5000 --watch .//_datas//db.json
 
 /*
  * For easier debugging in development mode, you can import the following file
