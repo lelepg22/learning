@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { Stagiaire } from 'src/app/core/models/stagiaire';
 import { StagiaireService } from 'src/app/core/services/stagiaire.service';
-import { CommonModule } from '@angular/common';
 import { HandleDetailService } from 'src/app/shared/directives/handle-detail.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -32,7 +31,7 @@ export class StagiaireTableComponent implements OnInit {
 
   public stagiairesOver: Array<Stagiaire> =
    this.serviceStagiaires
-   .getStagiares()
+   .getStagiares(null)
    .filter(x => x.getBirthDate() > this.stopDate!);
 
 
@@ -45,6 +44,7 @@ export class StagiaireTableComponent implements OnInit {
 
     this.serviceStagiaires.findAll().subscribe((stagiaire: Stagiaire[])=>{
       this.stagiaires = stagiaire;
+      this.stagiaires = this.serviceStagiaires.getStagiares(null);
     }
     )
 

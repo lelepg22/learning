@@ -23,12 +23,12 @@ public class TraineeDto {
     @NotNull
     @Email
     private String email;
-   @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
-   private String phoneNumber;
+
+    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
+    private String phoneNumber;
 
     @Past
     private LocalDate birthDate;
-
 
     public TraineeDto(String firstName, String lastName) {
         this.firstName = firstName;

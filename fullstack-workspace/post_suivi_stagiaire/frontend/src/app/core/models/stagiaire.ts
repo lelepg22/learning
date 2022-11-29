@@ -1,4 +1,4 @@
-import { last } from "rxjs";
+
 
 export class Stagiaire {
 
@@ -10,7 +10,7 @@ export class Stagiaire {
 
     private email: string = "";
 
-    private phoneNumber: string = "";
+    private phoneNumber!: string;
 
     private birthDate!: Date;
 
@@ -60,7 +60,7 @@ export class Stagiaire {
         return this.birthDate;
     }
 
-    public setBirthDate(birthDate: Date): void {
+    public setBirthDate(birthDate: Date ): void {
         this.birthDate = birthDate;
     }
     

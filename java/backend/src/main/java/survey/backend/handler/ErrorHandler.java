@@ -27,7 +27,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                                  WebRequest request){
 
         return ResponseEntity.status(status)
-                .body(new ErrorMessage(400, "Data not valid " +ex.getMessage() , null));
+                .body(
+                        new ErrorMessage(
+                                400, "Data not valid " +ex.getMessage() , null
+                        )
+                );
 
     };
 
@@ -37,7 +41,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     ){
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage(404, exception.getMessage(), null));
+                .body(
+                        new ErrorMessage(
+                                404, exception.getMessage(), null
+                        )
+                );
     }
 
 }

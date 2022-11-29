@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators'
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators'
+import { StagiaireDto } from 'src/app/stagiaires/dto/stagiaire-dto';
 import { environment } from 'src/environments/environment';
 import { Stagiaire } from '../models/stagiaire';
 
@@ -9,7 +10,7 @@ import { Stagiaire } from '../models/stagiaire';
   providedIn: 'root'
 })
 export class StagiaireService {
-
+  private stagiaire : Stagiaire = new Stagiaire();
   private stagiaires: Array<Stagiaire> = [];
   private controllerUrl : string  =  `${environment.apiBaseUrl}/trainee`;
 
@@ -46,52 +47,13 @@ export class StagiaireService {
       )
 
   }
-  /*private feedIt(): void {
+ 
 
-    let stagiaire:  Stagiaire = new Stagiaire();
-    stagiaire.setId(1);
-    stagiaire.setLastName("Gaglianone");
-    stagiaire.setFirstName("Alexandre");
-    stagiaire.setPhoneNumber("+330765654");
-    stagiaire.setBirthDate(new Date(1977, 3,30));
-    stagiaire.setEmail("alex.gaglianone@gmail.com")
+  public getStagiares(stagiaire : Stagiaire | null | any): Array<Stagiaire> {
+    (stagiaire) ? this.stagiaires.push(stagiaire) : this.stagiaires;
+    
 
-    this.stagiaires.push(stagiaire);
-
-    stagiaire = new Stagiaire();
-    stagiaire.setId(2);
-    stagiaire.setLastName("Marcel");
-    stagiaire.setFirstName("Jean");
-    stagiaire.setPhoneNumber("+330826624");
-    stagiaire.setBirthDate(new Date(1988, 3,10));
-    stagiaire.setEmail("ajeanma@gmail.com")
-
-    this.stagiaires.push(stagiaire);
-
-    stagiaire = new Stagiaire();
-    stagiaire.setId(3);
-    stagiaire.setLastName("Willow");
-    stagiaire.setFirstName("Johnny");
-    stagiaire.setPhoneNumber("+330826624");
-    stagiaire.setBirthDate(new Date(1965, 3,10));
-    stagiaire.setEmail("johnny@gmail.com")
-
-    this.stagiaires.push(stagiaire);
-
-    stagiaire = new Stagiaire();
-    stagiaire.setId(4);
-    stagiaire.setLastName('Aubert');
-    stagiaire.setFirstName('Jean-Luc');
-    stagiaire.setPhoneNumber('+(33)6 15 15 15 15');
-    stagiaire.setEmail('jla.webprojet@gmail.com');
-    stagiaire.setBirthDate(new Date(1968, 3, 30));
-
-    this.stagiaires.push(stagiaire);
-
-  } */
-
-  public getStagiares(): Array<Stagiaire> {
-
+    this.stagiaires;
     return this.stagiaires;
 
   }
@@ -142,6 +104,36 @@ export class StagiaireService {
     }
 
   }
+
+  public addStagiaire(stagiaire :StagiaireDto){
+
+    this.httpClient.post<StagiaireDto>(this.controllerUrl, stagiaire)
+    .pipe(
+      // take + map : res Json => Stagiaire
+      catchError((error: HttpErrorResponse) => {
+        console.log("Stagiaire not created:", error)
+        return throwError(() => new Error("Not Created"))
+      })
+    )
+    .subscribe(res => console.log("Response: ", res))
+
+  }
+
+  // public add(stagiaire: Stagiaire): void {
+  //   // hack to provoke error
+  //   stagiaire.setFirstName('')
+  //   // end hack here
+  //   console.log('add stagiaire asked: ', stagiaire)
+  //   this.httpClient.post(this.controllerBaseUrl, stagiaire)
+          // .pipe(
+          //   // take + map : res Json => Stagiaire
+          //   catchError((error: HttpErrorResponse) => {
+          //     console.log("Stagiaire not created:", error)
+          //     return throwError(() => new Error("Not Created"))
+          //   })
+          // )
+          // .subscribe(res => console.log("Response: ", res))
+  // }
 
 
 }

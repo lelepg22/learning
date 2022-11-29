@@ -1,29 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Stagiaire } from 'src/app/core/models/stagiaire';
+import { StagiaireService } from 'src/app/core/services/stagiaire.service';
+import { StagiaireDto } from '../../dto/stagiaire-dto';
+import { FormBuilderService } from '../../services/form-builder.service';
+
+
 
 @Component({
   selector: 'app-stagiaire-form',
   templateUrl: './stagiaire-form.component.html',
-  styleUrls: ['./stagiaire-form.component.scss']
+  styleUrls: ['./stagiaire-form.component.scss'],
 })
 export class StagiaireFormComponent implements OnInit {
 
-  public stagiaireForm: FormGroup = new FormGroup({
-    firstName : new FormControl('', Validators.required),
-    lastName : new FormControl('', Validators.required),
-    email : new FormControl('', [Validators.email, Validators.required]),
-    phoneNumber : new FormControl(''),
-    birthDate : new FormControl(new Date())
+  public stagiaire : Stagiaire = new Stagiaire ();
 
-  })  
+  public stagiaireForm!: FormGroup;
+  
 
-  constructor() { }
+  constructor( 
+
+    private serviceStagiaires: StagiaireService, 
+    private formBuilderService: FormBuilderService, 
+    private router: Router
+    
+
+    ) { }
 
   ngOnInit(): void {
+
+    this.stagiaireForm = this.formBuilderService.build().getForm()
   }
 
-  public onSubmit(){
-    console.warn(this.stagiaireForm.value)
+
+  // Méthode "helper"  
+ /**
+   * Returns a list of form controls
+   * @usage In template : c['lastName'] 
+   * instead of stagiareForm.controls['lastName']
+   */
+  public get c(): {[key: string]: AbstractControl} {
+
+    return this.stagiaireForm.controls;
   }
+
+
+  public onSubmit(){
+
+    const stagiaireDto : StagiaireDto = new StagiaireDto( this.stagiaireForm.value);
+
+   
+
+    //console.warn(this.stagiaireForm.value)
+    console.warn(stagiaireDto)
+
+    this.serviceStagiaires.addStagiaire(stagiaireDto);
+    
+  }
+
+  public goHome(): void {
+    this.router.navigate(['/', 'home']);
+  }
+
 
 }

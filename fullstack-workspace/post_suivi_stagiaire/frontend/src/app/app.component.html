@@ -1,28 +1,6 @@
-<h1  (click) ="toggleTitle()">
+<h1 [routerLink]="['/']" (click) ="toggleTitle()">
      {{ title }} 
 </h1>
 
-<ul> <!-- unordered list -->
-
-  <li *ngFor="let stagiare of stagiares">  
-
-      {{ stagiare.getLastName() }}
-      {{ stagiare.getEmail() }}
-
-  </li>
-
-</ul>
-
-<!--<button type="button" (click)="addStagiaire()">
-  Ajouter un stagiare
-</button>-->
-<app-stagiaire-form></app-stagiaire-form>
-
-<app-stagiaire-table></app-stagiaire-table>
-
-<input [type]="inputType"placeholder="Your Password...">
-<button [disabled]="this.inputType === 'text'" type="button" (click)="showPassword()">&#x2708;</button>
-<!-- <abbr title="Its An Abreviation">IAA</abbr>, title="" explains the abreviation when hover -->
-<p><abbr title="SANTOS FUTEBOL CLUBE">SFC</abbr> Its a soccer team</p>
-
-
+<!-- Etagère à routes : c'est là qu'Angular charge les composants routés -->
+<router-outlet></router-outlet>

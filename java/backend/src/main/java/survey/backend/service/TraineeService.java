@@ -46,4 +46,5 @@ public interface TraineeService {
      * @return true if found and deleted, false if not found
      */
     boolean delete(int id);
+
 }

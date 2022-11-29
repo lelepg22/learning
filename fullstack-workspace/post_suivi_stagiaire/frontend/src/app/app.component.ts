@@ -11,7 +11,7 @@ export class AppComponent {
 
   public title = 'Suivi des stagiaires';
 
-  public stagiares: Array<Stagiaire> = this.stagiareService.getStagiares();
+  public stagiares: Array<Stagiaire> = this.stagiareService.getStagiares(null);
 
   public inputType: string = 'password';  
 

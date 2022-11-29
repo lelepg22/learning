@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    background-color: #00000091;
+}
 .zoom-in {
 
     animation:zoomIn 1s  0.2s 1 backwards;
@@ -24,3 +28,5 @@
     }
 
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

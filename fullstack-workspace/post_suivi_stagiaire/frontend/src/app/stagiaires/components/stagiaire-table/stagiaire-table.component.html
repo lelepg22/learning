@@ -53,13 +53,8 @@
             <td>{{ getStagiairesVisible(stopDate) }}</td>
     </tfoot>
 </table>
-<!-- <ng-container *ngIf="card">
-    <app-stagiaire-detail [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
-</ng-container> -->
 
- <!--<div [appHidden]="card">
-    <app-stagiaire-detail  [stagiaire]="stagiaire" (visibility)="toggleCard()"></app-stagiaire-detail>
- </div>-->
+<a mat-raised-button color="accent" [routerLink]="['/', 'stagiaire','add']">Ajouter</a>
 
  <div [hidden]="card$ | async">
     <app-stagiaire-detail  [stagiaire]="stagiaire"></app-stagiaire-detail>

@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import survey.backend.dto.TraineeDto;
 import survey.backend.error.NoDataFoundError;
 import survey.backend.service.TraineeService;
-import survey.backend.service.impl.DummyTraineeService;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -50,6 +47,8 @@ public class TraineeController {
     );
     public Set<TraineeDto> trainees = build;
 
+
+
     /**
      * list of trainees
      * route: /api/trainee
@@ -58,6 +57,7 @@ public class TraineeController {
 
     @GetMapping
     public Set<TraineeDto> list(){
+
         return traineeService.findAll();
 
        // return this.trainees;
@@ -75,8 +75,11 @@ public class TraineeController {
     public TraineeDto findByid(@PathVariable("id") int id) {
 
         Optional<TraineeDto> optionalTraineeDto = traineeService.findById(id);
+
         if(optionalTraineeDto.isPresent()) {
+
             return optionalTraineeDto.get();
+
         }
         else{
 
@@ -127,7 +130,6 @@ public class TraineeController {
         //TODO: traineeDto must be valid
         return this.traineeService.add(traineeDto);
 
-
     }
 
     @DeleteMapping("delete/{id}")
@@ -144,23 +146,7 @@ public class TraineeController {
     @PutMapping
     public Optional<TraineeDto> putTrainee(@Valid @RequestBody TraineeDto traineeDto){
 
-        //TODO: traineeDto must be valid
-
-
-//        this.trainees = this.trainees.stream()
-//                .map(data -> {
-//                    if(data.getId() == traineeDto.getId()){
-//                        return data = traineeDto;
-//                    }
-//                    return data;
-//                }
-//                ).collect(Collectors.toSet());
-//
-//        return this.trainees;
         return this.traineeService.update(traineeDto);
-
-
-
 
     }
 

@@ -12,7 +12,9 @@ import { StagiaireDetailComponent } from './stagiaires/components/stagiaire-deta
 import { HiddenDirective } from './shared/directives/hidden.directive';
 import { BubbleDirective } from './shared/directives/bubble.directive';
 import { HttpClientModule} from '@angular/common/http';
-import { StagiaireFormComponent } from './stagiaires/components/stagiaire-form/stagiaire-form.component'
+import { StagiaireFormComponent } from './stagiaires/components/stagiaire-form/stagiaire-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,9 @@ import { StagiaireFormComponent } from './stagiaires/components/stagiaire-form/s
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule
+    AppRoutingModule,    
+    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
