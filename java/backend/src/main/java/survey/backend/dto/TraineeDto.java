@@ -1,9 +1,11 @@
 package survey.backend.dto;
 
 import lombok.*;
+import survey.backend.entities.Trainee;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Builder
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import java.time.LocalDate;
 
 public class TraineeDto {
 
-    private Integer id;
+    private Long id;
 
     @NotBlank //include @NonNull
     private String firstName;
@@ -28,10 +30,25 @@ public class TraineeDto {
     private String phoneNumber;
 
     @Past
-    private LocalDate birthDate;
+    private Date birthDate;
 
-    public TraineeDto(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+//    public TraineeDto(String firstName, String lastName) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
+
+    public Trainee toTrainee() {
+
+        Trainee trainee = new Trainee();
+
+        trainee.setId(this.id);
+        trainee.setLastName(this.lastName);
+        trainee.setFirstName(this.firstName);
+        trainee.setPhoneNumber(this.phoneNumber);
+        trainee.setEmail(this.email);
+        trainee.setBirthDate(this.birthDate);
+
+        return trainee;
+
     }
 }

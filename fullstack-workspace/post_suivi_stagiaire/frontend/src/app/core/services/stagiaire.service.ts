@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators'
@@ -37,7 +37,9 @@ export class StagiaireService {
               stagiaire.setFirstName(inputStagiaire.firstName);
               stagiaire.setEmail(inputStagiaire.email);
               stagiaire.setPhoneNumber(inputStagiaire.phoneNumber);
-              stagiaire.setBirthDate(new Date(inputStagiaire.birthDate));
+              if(inputStagiaire.birthDate != null){
+                console.log(inputStagiaire.birthDate)
+              stagiaire.setBirthDate(new Date(inputStagiaire.birthDate));}
               return stagiaire;
 
             }
@@ -58,13 +60,21 @@ export class StagiaireService {
 
   }
 
-  public delete(stagiaire: Stagiaire) {
+  public delete(stagiaire: Stagiaire) : Observable<HttpResponse<any>> {
+    // this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`,
+    // {
+    //   observe: 'response'
+    // })
+
     
-    this.httpClient.delete(`${this.controllerUrl}/${stagiaire.getId()}`).subscribe(
-    // this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`).subscribe(
-      (res: any) =>
-        console.log(res)
-    );
+    console.log(this.stagiaires);
+
+    // or
+    this.stagiaires.splice(this.stagiaires.indexOf(stagiaire), 1);
+    
+    return this.httpClient.delete(`${this.controllerUrl}/delete/${stagiaire.getId()}`, {
+      observe: "response"
+    });
 
     console.log(`Le composant souhaite que on delete ${stagiaire.getLastName()} stagiaire`);
 
@@ -73,10 +83,6 @@ export class StagiaireService {
 
     // NE REFRACHIE PAS LE COMPONENT
 
-    console.log(this.stagiaires);
-
-    // or
-    this.stagiaires.splice(this.stagiaires.indexOf(stagiaire), 1);
 
     //or
     // const stagiaireIndex: number = this.stagiaires.fixIndex((obj: Stagiaire) => obj.getId() === stagiaire.getId())
@@ -105,18 +111,46 @@ export class StagiaireService {
 
   }
 
-  public addStagiaire(stagiaire :StagiaireDto){
+  public addStagiaire(stagiaire :StagiaireDto): Observable<Stagiaire>{
 
-    this.httpClient.post<StagiaireDto>(this.controllerUrl, stagiaire)
+    return this.httpClient.post<StagiaireDto>(this.controllerUrl, stagiaire)
     .pipe(
       // take + map : res Json => Stagiaire
-      catchError((error: HttpErrorResponse) => {
-        console.log("Stagiaire not created:", error)
-        return throwError(() => new Error("Not Created"))
-      })
-    )
-    .subscribe(res => console.log("Response: ", res))
+      take(1),
+          map((stagiaireDto: StagiaireDto) => {
+            const stagiaire: Stagiaire = new Stagiaire();
+            stagiaire.setId(stagiaireDto.id!);
+            stagiaire.setLastName(stagiaireDto.lastName);
+            stagiaire.setFirstName(stagiaireDto.firstName);
+            stagiaire.setBirthDate(new Date(stagiaireDto.birthDate));
+            stagiaire.setPhoneNumber(stagiaireDto.phoneNumber);
+            stagiaire.setEmail(stagiaireDto.email);
+            return stagiaire;
+          }))
 
+  }
+
+  public findOne(id: number): Observable<Stagiaire> {
+
+    return this.httpClient.get<any>(
+      `${this.controllerUrl}/${id}`
+      )
+      .pipe(
+        take(1),
+        map(
+          (inputStagiaire: any) => {
+
+            const stagiaire: Stagiaire = new Stagiaire();
+            stagiaire.setId(inputStagiaire.id);
+            stagiaire.setLastName(inputStagiaire.lastName);
+            stagiaire.setFirstName(inputStagiaire.firstName);
+            stagiaire.setEmail(inputStagiaire.email);
+            stagiaire.setPhoneNumber(inputStagiaire.phoneNumber);
+            stagiaire.setBirthDate(new Date(inputStagiaire.birthDate));
+            return stagiaire;
+          }        
+        )
+      )
   }
 
   // public add(stagiaire: Stagiaire): void {

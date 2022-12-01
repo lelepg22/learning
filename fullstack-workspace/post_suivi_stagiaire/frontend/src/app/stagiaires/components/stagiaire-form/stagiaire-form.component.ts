@@ -49,14 +49,15 @@ export class StagiaireFormComponent implements OnInit {
 
   public onSubmit(){
 
-    const stagiaireDto : StagiaireDto = new StagiaireDto( this.stagiaireForm.value);
-
-   
+    const stagiaireDto : StagiaireDto = new StagiaireDto( this.stagiaireForm.value);   
 
     //console.warn(this.stagiaireForm.value)
     console.warn(stagiaireDto)
 
-    this.serviceStagiaires.addStagiaire(stagiaireDto);
+    this.serviceStagiaires.addStagiaire(stagiaireDto)
+    .subscribe(() => {
+      this.goHome();
+    });
     
   }
 

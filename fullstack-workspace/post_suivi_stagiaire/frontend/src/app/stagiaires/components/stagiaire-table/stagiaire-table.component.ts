@@ -3,6 +3,9 @@ import { Stagiaire } from 'src/app/core/models/stagiaire';
 import { StagiaireService } from 'src/app/core/services/stagiaire.service';
 import { HandleDetailService } from 'src/app/shared/directives/handle-detail.service';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { SnackService } from 'src/app/core/services/snack/snack.service';
 
 @Component({
   selector: 'app-stagiaire-table',
@@ -37,7 +40,10 @@ export class StagiaireTableComponent implements OnInit {
 
   constructor(
     private serviceStagiaires: StagiaireService,
-    private handleDetailService: HandleDetailService
+    private handleDetailService: HandleDetailService,
+    private router: Router,
+    private snackBarService: SnackService
+
     ) { }
 
   ngOnInit(): void {
@@ -56,7 +62,26 @@ export class StagiaireTableComponent implements OnInit {
 
   public onRemove(stagiaire: Stagiaire): void{
     console.log(`L'utilisateur souhaite supprimer ${stagiaire.getLastName()}`)
-    this.serviceStagiaires.delete(stagiaire);
+    this.serviceStagiaires.delete(stagiaire).subscribe({
+        next: (response: HttpResponse<any>) => {
+          console.log('A value was notified ' , response)
+          this.snackBarService.open(`${stagiaire.getFirstName()} ${stagiaire.getLastName()} was deleted`, "OK")
+
+          ,
+            1
+          
+          // Here goes the snackbar
+        },
+        error: (error: any) => {
+          // Something went wrong, deal with it
+          console.log('Error was intercepted')
+        },
+        complete: () => {
+          console.log('Complete was fired')
+        }
+      }
+
+    );
   }
 
   public getStagiairesVisible(params:Date | null): number {    
@@ -82,12 +107,9 @@ export class StagiaireTableComponent implements OnInit {
     return stagiaire.getBirthDate() < this.stopDate;
   }
 
-  public selectStagiaire(stagiaire: Stagiaire): void{      
+  public selectStagiaire(stagiaire: Stagiaire): void{  
    
-      this.stagiaire = stagiaire;
-
-      this.handleDetailService.setIsDetailHidden(false);
-      
+    this.router.navigate(['/', 'stagiaire', stagiaire.getId()]);      
         
   }  
 
