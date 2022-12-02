@@ -13,4 +13,11 @@ public class NoDataFoundError extends RuntimeException {
                         + id
                         + " not found");
     }
+    public static NoDataFoundError withValues(String itemType, String values) {
+        return new NoDataFoundError(
+                itemType
+                        + " with values[ "
+                        + values
+                        + " ] not found");
+    }
 }

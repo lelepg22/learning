@@ -30,9 +30,17 @@ public class TraineeService implements survey.backend.service.TraineeService {
 
     @Override
     public Iterable<Trainee> search(String firstName, String lastName) {
-        // @Todo implement method in the repository
-        return new HashSet<>();
+
+        if (lastName != null && firstName != null) {
+            return this.traineeRepository.byLastNameAndFirstName(lastName, firstName);
+        }
+        if (lastName != null && firstName == null) {
+            return this.traineeRepository.findByLastName(lastName);
+        }
+        return this.traineeRepository.findByFirstName(firstName);
     }
+
+
 
     @Override
     public Trainee add(TraineeDto traineeDto) {

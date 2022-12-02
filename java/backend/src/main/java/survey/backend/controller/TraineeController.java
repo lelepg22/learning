@@ -5,15 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import survey.backend.dto.TraineeDto;
 import survey.backend.entities.Trainee;
+import survey.backend.error.BadRequestError;
 import survey.backend.error.NoDataFoundError;
 import survey.backend.service.TraineeService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @RestController
@@ -24,31 +24,6 @@ public class TraineeController {
 
     @Autowired // Dependency INJECTION from SPRING
     private TraineeService traineeService;
-
-
-//    private final Set<TraineeDto> build = Set.of(
-//            TraineeDto.builder()
-//                    .id(1)
-//                    .firstName("Johnny")
-//                    .lastName("BeGood")
-//                    .birthDate(LocalDate.of(1956, 10, 10))
-//                    .build(),
-//            TraineeDto.builder()
-//                    .id(22)
-//                    .firstName("Silvie")
-//                    .lastName("Dupont")
-//                    .birthDate(LocalDate.of(1986, 12, 22))
-//                    .build(),
-//            TraineeDto.builder()
-//                    .id(30)
-//                    .firstName("Daniel")
-//                    .lastName("Cloud")
-//                    .birthDate(LocalDate.of(1967, 02, 06))
-//                    .build()
-//    );
-//    public Set<TraineeDto> trainees = build;
-
-
 
     /**
      * list of trainees
@@ -105,7 +80,42 @@ public class TraineeController {
             @RequestParam(value = "fn", required = false) String firstName ,
             @RequestParam(value = "ln", required = false) String lastName
     ){
-      return traineeService.search(lastName, firstName);
+        int size = 0;
+
+        if(firstName == null && lastName == null) {
+
+            throw BadRequestError.withNoArgs("search with no args not permitted");
+        }
+
+        Iterable<Trainee> trainees = traineeService.search(lastName, firstName);
+        if (trainees instanceof Collection) {
+            size = ((Collection<Trainee>) trainees).size();
+        }
+
+//        List<Trainee> trainees = StreamSupport.stream(
+//                traineeService.search(lastName, firstName).spliterator(), false
+//        ).collect(Collectors.toList());
+
+        if(size == 0){
+            throw NoDataFoundError.withValues("Trainees", firstName + " " + lastName);
+        }
+
+        return trainees;
+
+//
+//        if(firstName != null || lastName != null){
+//            Iterable<Trainee> trainee = traineeService.search(lastName, firstName);
+//            if(trainee.iterator().next().getFirstName().length() > 0){
+//                return trainee;
+//            }
+//            else{
+//                throw NoDataFoundError.withValues("First Name, Last name : ",  firstName + " " + lastName );
+//            }
+//
+//        }
+//
+//        return null;
+
     }
 
     @PostMapping
@@ -131,10 +141,9 @@ public class TraineeController {
     }
 
     @PutMapping
-    public Optional<Trainee> putTrainee(@Valid @RequestBody TraineeDto traineeDto){
-
-        return this.traineeService.update(traineeDto);
-
+    public Trainee update(@Valid @RequestBody TraineeDto traineeDto) {
+        return traineeService.update(traineeDto)
+                .orElseThrow(() -> NoDataFoundError.withId("Trainee", Math.toIntExact(traineeDto.getId())));
     }
 
 }
