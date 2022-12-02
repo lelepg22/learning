@@ -15,9 +15,9 @@
                 <!-- 
                     <tr *ngIf="(stopDate === null) ? true : stopDate.getDate() === 31 ? stagiaire.getBirthDate() > stopDate : stagiaire.getBirthDate() < stopDate">
                 -->
-                <tr *ngIf="changeView(stagiaire)" (click)="selectStagiaire(stagiaire)" > 
+                <tr *ngIf="changeView(stagiaire)" > 
                 <td>  <!-- td :définit une cellule d'un tableau -->
-                   <span  appBubble [config]="bubbleConfig">
+                   <span (click)="selectStagiaire(stagiaire)" appBubble [config]="bubbleConfig">
 
                     {{stagiaire | initials: {firstNameFirst:false} }}  
                    <!--pipe initials apres ":" arguments -->

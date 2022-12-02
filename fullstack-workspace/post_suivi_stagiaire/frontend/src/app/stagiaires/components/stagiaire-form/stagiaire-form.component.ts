@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
+import { timeStamp } from 'console';
+import { ConnectableObservable } from 'rxjs';
 import { Stagiaire } from 'src/app/core/models/stagiaire';
 import { StagiaireService } from 'src/app/core/services/stagiaire.service';
 import { StagiaireDto } from '../../dto/stagiaire-dto';
@@ -18,20 +20,50 @@ export class StagiaireFormComponent implements OnInit {
   public stagiaire : Stagiaire = new Stagiaire ();
 
   public stagiaireForm!: FormGroup;
+
+  public addMode: boolean = true;
   
 
   constructor( 
 
-    private serviceStagiaires: StagiaireService, 
+    private stagiaireService: StagiaireService, 
     private formBuilderService: FormBuilderService, 
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     
 
     ) { }
 
   ngOnInit(): void {
 
-    this.stagiaireForm = this.formBuilderService.build().getForm()
+    this.route.url
+    .subscribe((url: UrlSegment[]) => {
+
+      if(url.filter((data : UrlSegment) => data.path === "update").length)
+      {
+
+        console.log("Mode update");
+        this.addMode = false;
+        
+        this.stagiaireService.findOne(+url[url.length - 1].path)
+          .subscribe(
+            (stagiaire: Stagiaire) => {
+              this.stagiaireForm = this.formBuilderService.build(stagiaire).getForm()
+            }
+          )
+
+      }
+      else{
+        
+        this.stagiaireForm = this.formBuilderService.build(new Stagiaire()).getForm();
+        console.log("Mode ajout");
+      }
+      
+
+    })
+
+    
+    
   }
 
 
@@ -53,11 +85,19 @@ export class StagiaireFormComponent implements OnInit {
 
     //console.warn(this.stagiaireForm.value)
     console.warn(stagiaireDto)
+    if(this.addMode){
 
-    this.serviceStagiaires.addStagiaire(stagiaireDto)
-    .subscribe(() => {
-      this.goHome();
-    });
+      this.stagiaireService.addStagiaire(stagiaireDto)
+      .subscribe(() => {
+        this.goHome();
+      });
+
+    }
+    else{
+      console.log(this.stagiaireForm.value)
+      this.stagiaireService.update(stagiaireDto.toStagiaire())
+      .subscribe(() => this.goHome())
+    }
     
   }
 

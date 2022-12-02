@@ -153,21 +153,27 @@ export class StagiaireService {
       )
   }
 
-  // public add(stagiaire: Stagiaire): void {
-  //   // hack to provoke error
-  //   stagiaire.setFirstName('')
-  //   // end hack here
-  //   console.log('add stagiaire asked: ', stagiaire)
-  //   this.httpClient.post(this.controllerBaseUrl, stagiaire)
-          // .pipe(
-          //   // take + map : res Json => Stagiaire
-          //   catchError((error: HttpErrorResponse) => {
-          //     console.log("Stagiaire not created:", error)
-          //     return throwError(() => new Error("Not Created"))
-          //   })
-          // )
-          // .subscribe(res => console.log("Response: ", res))
-  // }
+  public update(stagiaire: Stagiaire): Observable<Stagiaire> {
 
+    return this.httpClient.put<any>(this.controllerUrl,stagiaire)
+    .pipe(
+      take(1),
+      map(
+        (inputStagiaire: any) => {
+
+          const stagiaire: Stagiaire = new Stagiaire();
+          stagiaire.setId(inputStagiaire.id!);
+          stagiaire.setLastName(inputStagiaire.lastName);
+          stagiaire.setFirstName(inputStagiaire.firstName);
+          stagiaire.setEmail(inputStagiaire.email);
+          stagiaire.setPhoneNumber(inputStagiaire.phoneNumber);
+          stagiaire.setBirthDate(new Date(inputStagiaire.birthDate));
+          return stagiaire;
+        }  
+        
+      )
+    )
+
+  }
 
 }

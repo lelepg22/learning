@@ -36,6 +36,11 @@ export class AppRoutingModule {
     },
 
     {
+      path:"stagiaire/update/:id",
+      component: StagiaireFormComponent
+    },
+
+    {
       path:"**",  //Wild card
       redirectTo: "home",
       pathMatch: "full"
