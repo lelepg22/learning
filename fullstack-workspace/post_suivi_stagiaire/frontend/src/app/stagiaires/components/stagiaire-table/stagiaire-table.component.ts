@@ -83,6 +83,9 @@ export class StagiaireTableComponent implements OnInit {
 
     );
   }
+  public onUpdate(stagiaire : Stagiaire): void {
+    console.log("navigate to update form")
+  }
 
   public getStagiairesVisible(params:Date | null): number {    
 
