@@ -36,33 +36,13 @@ export class StagiaireFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.url
-    .subscribe((url: UrlSegment[]) => {
+    const data : any = this.route.snapshot.data;
 
-      if(url.filter((data : UrlSegment) => data.path === "update").length)
-      {
+    console.log(data.form.value.id !== 0, data.form);
 
-        console.log("Mode update");
-        this.addMode = false;
-        
-        this.stagiaireService.findOne(+url[url.length - 1].path)
-          .subscribe(
-            (stagiaire: Stagiaire) => {
-              this.stagiaireForm = this.formBuilderService.build(stagiaire).getForm()
-            }
-          )
+    (data.form.value.id !== 0) ? this.addMode = false : this.addMode = true
 
-      }
-      else{
-        
-        this.stagiaireForm = this.formBuilderService.build(new Stagiaire()).getForm();
-        console.log("Mode ajout");
-      }
-      
-
-    })
-
-    
+    this.stagiaireForm = data.form; 
     
   }
 
